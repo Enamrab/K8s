@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lullipod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: cont1
+      image: ubuntu:latest
+      command:
+        - /bin/bash
+        - -c
+        - |
+          echo "Hi this is image ubuntu inside cont1 inside lullipod"
+          while true;
+          do
+           echo "Hi Lullliiii..................";
+           sleep 3;
+           echo "Bye Lulllliiii................";
+           sleep 4;
+          done
+

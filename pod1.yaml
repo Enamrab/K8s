@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: testpod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: cont1
+      image: ubuntu:latest
+      command: 
+        - /bin/bash
+        - -c
+        - |
+          echo "from image inside cont1 in testpod"
+          while true;
+          do
+            echo "Hi kubernetes, hi Pod";
+            sleep 3;
+            echo "hi from Enam";
+            sleep 3;
+          done
+
+    - name: cont2
+      image: ubuntu:latest
+      command:
+        - /bin/bash
+        - -c
+        - |
+          echo "hi from ubuntu image in cont2 from testpod"
+          while true;
+          do
+            echo "------------------------------";
+            echo "******************************";
+            sleep 3;
+            echo "##############################";
+          done
