@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pacman-pod
+  labels:
+    app: pacman-server
+spec:
+  containers:
+    - name: pacman-container
+      image: dbafromthecold/pac-man:latest
+      ports:
+        - containerPort: 8080
+      
+
