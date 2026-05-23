@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envpod
+  labels:
+    app: test
+spec:
+  containers:
+    - name: cont1
+      image: ubuntu:latest
+      command:
+        - /bin/bash
+        - -c
+        - |
+          while true;
+          do
+           echo "Hi Environments"
+           sleep 5
+          done
+      env:
+        - name: MY_NAME
+          value: "Enam Rab"
+
