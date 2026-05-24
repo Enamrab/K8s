@@ -20,6 +20,8 @@ spec:
         env: prod
         app: myapp
     spec:
+      nodeSelector:
+        env: prod
       containers:
         - name: cont1
           image: ubuntu
