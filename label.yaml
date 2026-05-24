@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replica2
+  labels:
+    env: prod
+    app: myapp
+    tier: frontend
+    name: Enam
+    class: ReplicaSet
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      env: prod
+      app: myapp
+  template:
+    metadata:
+      labels:
+        env: prod
+        app: myapp
+    spec:
+      containers:
+        - name: cont1
+          image: ubuntu
+          command:
+            - /bin/bash
+            - -c
+            - |
+              free;
+              df;
+              ps

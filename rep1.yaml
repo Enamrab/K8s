@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replica1
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: cont1
+          image: ubuntu:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              while true;
+              do
+               echo "hi Replica"
+               sleep 5;
+              done
+
