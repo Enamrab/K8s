@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    topic: networking
+    subtopic: pod-pod-comm
+spec:
+  containers:
+    - name: cont1
+      image: nginx
+      ports:
+        - containerPort: 80
+
