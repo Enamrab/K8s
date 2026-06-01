@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-deployment
+  labels:
+    app: server
+    type: internal
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: cont1
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: dockerhub-secret
+
