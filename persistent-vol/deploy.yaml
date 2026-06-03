@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-vol
+  labels:
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: cont1
+          image: ubuntu:latest
+          command: [ "/bin/bash", "-c" , "sleep 1000" ]
+          volumeMounts:
+            - name: myvol
+              mountPath: /tmp/persistent
+      volumes:
+        - name: myvol
+          persistentVolumeClaim:
+            claimName: pvc-vol 
