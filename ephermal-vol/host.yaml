@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostvol-pod
+  labels:
+    app: myvol
+spec:
+  containers:
+    - name: cont1
+      image: ubuntu
+      command: [ "/bin/bash", "-c", "sleep 19900" ]
+      volumeMounts:
+        - name: host-vol
+          mountPath: /tmp/data
+
+  volumes:
+    - name: host-vol
+      hostPath:
+        path: /home/laborant/enam
+
