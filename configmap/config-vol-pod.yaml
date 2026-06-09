@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-vol-pod
+  labels:
+    version: "0.1"
+spec:
+  containers:
+    - name: cont1
+      image: ubuntu
+      command:
+        - /bin/bash
+        - -c
+        - |
+          while true;
+          do 
+           echo "hi config-vol pod";
+           sleep 10;
+          done
+
+      volumeMounts:
+        - name: myconfig-vol
+          mountPath: /etc/config
+
+  volumes:
+    - name: myconfig-vol
+      configMap:
+        name: myconf
+        items:
+          - key: xyz.conf
+            path: xyz.conf
