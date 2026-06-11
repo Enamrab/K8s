@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2026-06-11T03:00:16Z"
+  labels:
+    kubernetes.io/metadata.name: enam
+  name: enam
+  resourceVersion: "772"
+  uid: a9af7f80-6d45-48a9-b5c7-c57d145d68d6
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active

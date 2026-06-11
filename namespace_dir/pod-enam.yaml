@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: ubuntu-cont
+      image: ubuntu
+      command:
+        - /bin/bash
+        - -c
+        - |
+          while true;
+          do
+            echo "Hi from ns Enam with Resource Quota defined and pod max 5";
+            sleep 5;
+          done
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+        limits:
+          cpu: "1"
+          memory: "2Gi"
