@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 1Gi # Match or exceed your PVC size
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # Match your PVC access mode
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /mnt/data
+

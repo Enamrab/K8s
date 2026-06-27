@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-headless
+  labels:
+    app: counter
+spec:
+  ports:
+  - port: 5000
+    name: web
+  clusterIP: None # Makes it headless
+  selector:
+    app: counter
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: counter-app
+spec:
+  serviceName: "counter-headless"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: counter
+  template:
+    metadata:
+      labels:
+        app: counter
+    spec:
+      containers:
+      # Container 1: The Python Web App
+      - name: web-app
+        image: python:3.10-slim
+        command: ["/bin/sh", "-c"]
+        args:
+          - pip install flask redis && 
+            echo "$APP_CODE" > app.py && 
+            python app.py
+        env:
+        - name: APP_CODE
+          value: |
+            import os, socket
+            from flask import Flask
+            from redis import Redis
+            app = Flask(__name__)
+            redis = Redis(host='localhost', port=6379, db=0)
+            @app.route('/')
+            def hello():
+                try: count = redis.incr('hits')
+                except Exception as e: count = str(e)
+                return f"<h3>Views: {count}</h3><b>Pod:</b> {socket.gethostname()}<br>"
+            if __name__ == '__main__': app.run(host='0.0.0.0', port=5000)
+        ports:
+        - containerPort: 5000
+          name: web
+          
+      # Container 2: Redis Storage Engine
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+          
+  # This automatically builds a unique drive for every single Pod
+  volumeClaimTemplates:
+  - metadata:
+      name: data-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-ui
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 32000
+  selector:
+    app: counter
+
